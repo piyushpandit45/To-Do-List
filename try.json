@@ -1,0 +1,39 @@
+let inputElem = document.getElementById('input');
+let clickbtn = document.querySelector(".btn");
+let todoElem = document.querySelector(".todolistelement");
+
+const addTodo = () => {
+    if (inputElem.value.trim() === "") return; // Prevent adding empty todos
+
+    let pElem = document.createElement("p");
+    pElem.textContent = inputElem.value;
+    todoElem.append(pElem);
+
+    // Trigger the animation
+    setTimeout(() => pElem.classList.add("show"), 10);
+
+    inputElem.value = "";
+}
+
+// Add todo when button is clicked
+clickbtn.addEventListener("click", () => {
+    addTodo();
+});
+
+// Add todo when Enter key is pressed
+inputElem.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        addTodo();
+    }
+});
+
+// Event delegation method for removing elements
+todoElem.addEventListener("click", (event) => {
+    let currentElem = event.target;
+    currentElem.classList.add("remove");
+
+    // After the animation ends, remove the element from the DOM
+    currentElem.addEventListener("transitionend", () => {
+        currentElem.remove();
+    });
+});
